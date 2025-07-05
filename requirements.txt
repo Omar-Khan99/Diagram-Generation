@@ -1,0 +1,4 @@
+graphviz
+langchain-groq
+python-dotenv
+google-generativeai
