@@ -1,30 +1,33 @@
-# Diagram Generation Project
+Of course. Here is an updated README file that reflects the changes in your project, transitioning it from a command-line tool to an interactive Streamlit web application.
 
-This project utilizes large language models (LLMs) from Google's Gemini and Groq's Llama3 to generate explanatory diagrams using Graphviz. Users can input a topic, and the system will generate a structured explanation and then create a visual diagram to represent it.
+---
+
+# AI-Powered Diagram Generation Chat
+
+This project provides an interactive chat application built with Streamlit that leverages large language models (LLMs) to generate explanatory diagrams. Users can input a topic into the chat, and the system will generate a structured explanation and then create a visual diagram using Graphviz. The application also supports uploading and displaying images directly in the chat.
 
 ## Features
 
-- **AI-Powered Explanations**: Leverages LLMs to generate detailed and structured explanations for any given topic.
-- **Automated Diagram Generation**: Converts structured explanations into visual diagrams using Graphviz.
-- **Error Correction**: Includes a mechanism to attempt self-correction of generated Graphviz code if initial execution fails.
+-   **Interactive Chat Interface**: A user-friendly chat interface powered by Streamlit for a seamless experience.
+-   **AI-Powered Explanations**: Leverages Google's Gemini model to generate detailed and structured explanations for any given topic.
+-   **Automated Diagram Generation**: Converts the AI-generated explanations into visual diagrams using Graphviz, powered by Groq's Llama3 for code generation.
+-   **Error Correction**: Includes a mechanism to attempt self-correction of the generated Graphviz code if the initial execution fails.
 
 ## Setup
 
 To set up and run this project, follow these steps:
 
-1. **Clone the repository** (if you haven't already):
+1.  **Clone the repository**:
+    ```bash
+    git clone <your-repository-url>
+    cd <your-project-folder>
+    ```
 
-   ```bash
-   git clone <your-repository-url>
-   cd Diagram\ Generation
-   ```
-
-2. **Create a virtual environment** (recommended):
-
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-   ```
+2.  **Create a virtual environment** (recommended):
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    ```
 
 3. **Install dependencies**:
 
@@ -32,18 +35,13 @@ To set up and run this project, follow these steps:
    pip install -r requirements.txt
    ```
 
-   *Note: You will need to create a `requirements.txt` file if it doesn't exist, listing all Python packages used (e.g., `graphviz`, `langchain-groq`, `python-dotenv`, `google-generativeai`).*
-
-4. **Set up API Keys**:
-
-   Create a file named `API.env` in the root of your project and add your API keys:
-
-   ```
-   GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
-   GROQ_API_KEY="YOUR_GROQ_API_KEY"
-   ```
-
-   Replace `"YOUR_GEMINI_API_KEY"` with your actual Google Gemini API key and `"YOUR_GROQ_API_KEY"` with your Groq API key.
+4.  **Set up API Keys**:
+    Create a file named `.env` in the root of your project and add your API keys:
+    ```
+    GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+    GROQ_API_KEY="YOUR_GROQ_API_KEY"
+    ```
+    Replace the placeholder values with your actual API keys from Google and Groq. The application will load these keys from the `.env` file.
 
 5. **Install Graphviz**: 
 
@@ -55,14 +53,28 @@ To set up and run this project, follow these steps:
 
    After installation, ensure that the Graphviz `bin` directory is added to your system's PATH.
 
-## Usage
+## Project Structure
 
-To generate a diagram, run the `diagram_graphviz.py` script:
+Your project directory should look like this:
 
-```bash
-python diagram_graphviz.py
+```
+your-project-folder/
+├── app.py                # The main Streamlit application
+├── diagram_graphviz.py   # Core logic for diagram generation
+├── prompts.py            # Prompts for the language models
+└── .env                  # Your API keys (private)
 ```
 
-The script will then prompt you to "Enter what you want to learn:". Type your topic and press Enter. The generated diagram will be saved as a PNG file in the same directory.
+## Usage
 
-Type `exit` when prompted to quit the program.
+To run the chat application, navigate to your project directory in your terminal and use the following Streamlit command:
+
+```bash
+streamlit run app.py
+```
+
+This will launch the application in a new tab in your web browser.
+
+**How to interact with the app:**
+
+*   **Generate a Diagram**: Type a topic into the chat input box at the bottom of the screen and press Enter. The assistant will generate a diagram and display it in the chat.

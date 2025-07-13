@@ -2,11 +2,12 @@ from graphviz import Digraph
 from langchain_groq import ChatGroq
 from langchain.schema import HumanMessage, AIMessage, SystemMessage
 from dotenv import load_dotenv
-from prompt import prompt_description, prompt_fix_code, prompt_code_graphviz
+from prompts import prompt_description, prompt_fix_code, prompt_code_graphviz
 import time
 import re
 import traceback
 import google.generativeai as genai
+import os
 
 # Load environment variables from .env file
 load_dotenv("API.env") # don't forget add your API KEY in environment
@@ -33,12 +34,22 @@ def generate_diagram(topic):
     graphviz_code = graphviz_code_response.strip()
 
     # Handle the code execution safely with isolated namespace
-    filename = f"diagram_{topic.replace(' ', '_')}_{int(time.time())}"
-    filename = sanitize_filename(filename)
+    base_filename = f"diagram_output"
+    filename = sanitize_filename(base_filename)
+    output_filename_with_ext = f"{filename}.png"
+
+    # Important: The generated graphviz_code should use the variable 'filename' to save the output.
+    # You might need to adjust your 'prompt_code_graphviz' to instruct the LLM to save the output like this:
+    # e.g., "dot.render(f'{filename}', view=False, format='png')"
+    
+    # Clean the code from markdown
+    if '```' in graphviz_code:
+        graphviz_code = graphviz_code.split('```')[1].strip('python\n')
 
     try:
-        exec(graphviz_code)
-        print(f"✅ Diagram generated successfully: {filename}.png")
+        exec(graphviz_code, {'filename': filename})
+        print(f"✅ Diagram generated successfully: {output_filename_with_ext}")
+        return output_filename_with_ext
     except Exception as e:
         error_message = f"{str(e)}\n\n{traceback.format_exc()}"
         print(f"❌ Initial attempt failed with error: {str(e)}")
@@ -67,19 +78,12 @@ def generate_diagram(topic):
             graphviz_code = fixed_code  # Update code for next attempt
 
             try:
-                exec(graphviz_code)
-                print(f"✅ Diagram generated successfully: {filename}.png")
-                break
+                exec(graphviz_code, {'filename': filename})
+                print(f"✅ Diagram generated successfully: {output_filename_with_ext}")
+                return output_filename_with_ext
             except Exception as e:
                 error_message = f"{str(e)}\n\n{traceback.format_exc()}"
                 print(f"❌ Attempt {i+1}/2 failed with error: {str(e)}")
                 if i == 1:
                     print(f"❌ All attempts failed. Could not generate diagram.")
-
-# Input from user for the topic to explain
-while True:
-    topic = input("Enter what you want (type 'exit' to quit): ")
-    if topic.lower() == "exit":
-        break
-    generate_diagram(topic)
-
+                    return None

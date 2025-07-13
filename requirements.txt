@@ -1,4 +1,6 @@
+streamlit
 graphviz
 langchain-groq
-python-dotenv
 google-generativeai
+python-dotenv
+os
