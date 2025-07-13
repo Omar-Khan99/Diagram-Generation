@@ -1,7 +1,3 @@
-Of course. Here is an updated README file that reflects the changes in your project, transitioning it from a command-line tool to an interactive Streamlit web application.
-
----
-
 # AI-Powered Diagram Generation Chat
 
 This project provides an interactive chat application built with Streamlit that leverages large language models (LLMs) to generate explanatory diagrams. Users can input a topic into the chat, and the system will generate a structured explanation and then create a visual diagram using Graphviz. The application also supports uploading and displaying images directly in the chat.
